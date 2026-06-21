@@ -2,7 +2,7 @@
 
 Passchain is a professional-grade, decentralized password management solution. It combines client-side industry-standard encryption with the Stellar blockchain to provide a "Zero-Knowledge" storage vault for your most sensitive credentials. 
 
-**Live Demo:**https://passchain.vercel.app/
+**Live Demo:**: https://passchain.vercel.app/
 
 ## 🔗 Public Network Data
 
