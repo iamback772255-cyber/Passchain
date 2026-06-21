@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "cd src/contracts/password-vault && npm install && npm run build",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run"
