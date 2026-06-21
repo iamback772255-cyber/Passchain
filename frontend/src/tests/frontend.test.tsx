@@ -1,5 +1,29 @@
-import { describe, test, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
+
+// Mock third party stellar libraries before importing components
+vi.mock('@creit-tech/stellar-wallets-kit', () => {
+  return {
+    StellarWalletsKit: {
+      signTransaction: vi.fn(),
+      signAuthEntry: vi.fn(),
+    },
+    Networks: {
+      TESTNET: 'TESTNET',
+      PUBLIC: 'PUBLIC',
+    },
+  };
+});
+
+vi.mock('@stellar/freighter-api', () => {
+  return {
+    isConnected: vi.fn(),
+    getPublicKey: vi.fn(),
+    signTransaction: vi.fn(),
+  };
+});
+
+import { describe, test, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import Header from '../components/Header';
 import PasswordGenerator from '../components/PasswordGenerator';
