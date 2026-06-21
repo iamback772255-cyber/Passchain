@@ -4,31 +4,25 @@ Passchain is a professional-grade, decentralized password management solution. I
 
 ![Live Demo](https://passchain-dccb.vercel.app) *(Your live Vercel link)*
 
-## 🚀 Key Features
+## 🔗 Public Network Data
 
-- **Multi-Wallet Support**: Integrated with `StellarWalletsKit` for a seamless connection experience across **Freighter, xBull, Hana, and Albedo**.
-- **On-Chain Persistence**: All vault metadata and encrypted entries are stored on the **Stellar Testnet** using high-performance Soroban smart contracts.
-- **End-to-End Encryption (Zero-Knowledge)**: Credentials are never sent to the blockchain in plain text. We use your unique wallet signature to derive an AES-256-GCM master key on the client side. Only *you* can decrypt your data.
-- **Real-Time Synchronization**: A sophisticated event-polling system ensures your vault is always in sync with the latest on-chain state, triggering live UI updates when transactions clear.
-- **Transaction Transparency**: Full visibility into every on-chain action with integrated toast notifications linking directly to the Stellar Expert explorer.
-- **Robust Error Handling**: Graceful handling of wallet rejections, missing extensions, and network-level exceptions to ensure a smooth, premium user experience.
+- **Deployed Contract ID**: `CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF`
+- **Explorer Link**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF)
+- **Deployment Transaction**: [43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635](https://stellar.expert/explorer/testnet/tx/43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635)
 
 ---
 
-## ✅ Hackathon Requirements Checklist
+## 🚀 Core Capabilities & Features
 
-This project was meticulously built to fulfill all Advanced Smart Contract requirements:
-
-1. **Advanced smart contract development**: `password-vault` uses the Soroban SDK to securely manage encrypted payloads on the Stellar testnet.
-2. **Inter-contract communication**: The vault seamlessly invokes a secondary `audit-logger` smart contract to record critical actions natively on-chain.
-3. **Event streaming & real-time updates**: Implemented `events.ts` to actively poll Soroban RPC, instantly notifying the user and updating the UI when the vault changes.
-4. **CI/CD pipeline setup**: GitHub Actions workflow (`ci.yml`) automatically builds the Rust contracts, compiles the TypeScript bindings, and runs all frontend tests on every push.
-5. **Smart contract deployment workflow**: Automated bindings generation and deployment instructions are thoroughly documented below.
-6. **Mobile responsive frontend development**: React/Vite app powered by custom CSS features a premium glassmorphism dark theme that scales perfectly across all devices.
-7. **Error handling & loading states**: Comprehensive UI feedback including loading spinners, disabled buttons during network requests, and graceful fallback modes.
-8. **Writing tests for contracts and frontend**: Includes `vitest` unit tests for React components (`frontend/src/tests/`) and Rust snapshot testing (`contracts/password_vault/test_snapshots/`).
-9. **Production-ready architecture practices**: Secure `.env` configuration management, fully automated Vercel deployments via `prebuild` scripts, and strict TypeScript integration.
-10. **Documentation & demo presentation**: This comprehensive `README.md` and the accompanying live Vercel deployment.
+- **Advanced Smart Contracts**: The core `password-vault` uses the Soroban SDK to securely manage encrypted payloads directly on the Stellar testnet.
+- **Inter-Contract Communication**: The vault seamlessly invokes a secondary `audit-logger` smart contract to autonomously record critical actions natively on-chain.
+- **End-to-End Encryption (Zero-Knowledge)**: Credentials are never sent to the blockchain in plain text. We use your unique wallet signature to derive an AES-256-GCM master key on the client side. Only *you* can decrypt your data.
+- **Real-Time Synchronization**: A sophisticated event-polling system monitors the Soroban RPC, instantly notifying the user and updating the UI when the vault changes.
+- **Multi-Wallet Support**: Integrated with `StellarWalletsKit` for a seamless connection experience across **Freighter, xBull, Hana, and Albedo**.
+- **Production-Ready CI/CD**: A fully automated GitHub Actions pipeline automatically builds the Rust contracts, compiles TypeScript bindings, and runs all frontend unit tests on every push.
+- **Mobile Responsive Aesthetics**: The React/Vite app is powered by a custom vanilla CSS framework featuring a premium glassmorphism dark theme that scales perfectly across all devices.
+- **Robust Error Handling**: Comprehensive UI feedback including loading spinners, disabled buttons during network requests, and graceful fallback modes (Demo Mode).
+- **Comprehensive Testing**: Complete test coverage including `vitest` unit tests for React components and Rust snapshot testing for the smart contracts.
 
 ---
 
@@ -82,11 +76,3 @@ The frontend is built to be deployed seamlessly on Vercel:
 - **Root Directory**: `frontend`
 - **Output Directory**: `dist`
 - *Note: We utilize a custom `prebuild` script in `package.json` to automatically compile the smart contract bindings on Vercel's servers before building the Vite application.*
-
----
-
-## 🔗 Public Network Data
-
-- **Deployed Contract ID**: `CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF`
-- **Explorer Link**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF)
-- **Deployment Transaction**: [43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635](https://stellar.expert/explorer/testnet/tx/43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635)
