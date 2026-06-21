@@ -13,6 +13,7 @@ import { usePasswords } from './hooks/usePasswords';
 import Header from './components/Header';
 import PasswordList from './components/PasswordList';
 import AddPassword from './components/AddPassword';
+import { fetchContractEvents } from './stellar/events';
 
 // ── App Component ───────────────────────────────────────────────────────
 const App: React.FC = () => {
@@ -49,6 +50,28 @@ const App: React.FC = () => {
       loadEntries();
     }
   }, [appView, wallet.signature, loadEntries]);
+
+  // ── Poll for on-chain events for real-time updates ──────────────────
+  useEffect(() => {
+    if (appView !== 'dashboard' || !wallet.publicKey || wallet.isDemo) return;
+
+    const interval = setInterval(async () => {
+      const newEvents = await fetchContractEvents(wallet.publicKey!);
+      if (newEvents.length > 0) {
+        toast.success('On-chain changes detected. Updating vault...', {
+          icon: '🔄',
+          style: {
+            background: '#111827',
+            color: '#F1F5F9',
+            border: '1px solid rgba(59, 130, 246, 0.2)',
+          },
+        });
+        loadEntries();
+      }
+    }, 10000); // Check every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [appView, wallet.publicKey, wallet.isDemo, loadEntries]);
 
   // ── Track mouse for gradient glow effect ──────────────────────────
   useEffect(() => {
