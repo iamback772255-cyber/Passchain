@@ -1,6 +1,8 @@
 import * as PasswordVault from '../contracts/password-vault';
 
-const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || '';
+const ENV_CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || '';
+const BINDING_CONTRACT_ID = PasswordVault.networks.testnet.contractId || '';
+const CONTRACT_ID = ENV_CONTRACT_ID || BINDING_CONTRACT_ID;
 const RPC_URL = 'https://soroban-testnet.stellar.org:443';
 
 export interface ContractEvent {
@@ -8,8 +10,8 @@ export interface ContractEvent {
   type: string;
   ledger: number;
   contractId: string;
-  topic: string[];
-  value: string;
+  topic: any[];
+  value: any;
 }
 
 let lastLedger: number = 0;
@@ -52,7 +54,9 @@ export async function fetchContractEvents(userAddress: string): Promise<Contract
         id: e.id,
         type: e.type,
         ledger: e.ledger,
-        contractId: e.contractId,
+        contractId: typeof e.contractId === 'string' 
+            ? e.contractId 
+            : (e.contractId as any)?.contractId ? (e.contractId as any).contractId() : String(e.contractId),
         topic: e.topic,
         value: e.value
       }));
