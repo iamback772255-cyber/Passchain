@@ -12,6 +12,16 @@ Passchain is a professional-grade, decentralized password management solution. I
 
 ---
 
+## 📸 Media & Demo
+
+**🎥 Demo Video (1-2 minutes)**: [Watch the Demo Video Here](https://youtube.com/your-video-link)
+
+**📱 Mobile Responsive UI**:  
+*(Replace this line with your screenshot by dragging and dropping an image into this markdown file)*
+![Passchain Mobile UI Placeholder](https://via.placeholder.com/600x400?text=Passchain+Mobile+UI)
+
+---
+
 ## 🚀 Core Capabilities & Features
 
 - **Advanced Smart Contracts**: The core `password-vault` uses the Soroban SDK to securely manage encrypted payloads directly on the Stellar testnet.
