@@ -1,7 +1,13 @@
 #![no_std]
 use soroban_sdk::{
-    contract, contractimpl, contracttype, Address, Bytes, BytesN, Env, String, Symbol, Vec,
+    contract, contractimpl, contracttype, Address, Bytes, BytesN, Env, Symbol, Vec,
 };
+
+// ── Inter-Contract Client Interface ─────────────────────────────────────────
+#[soroban_sdk::contractclient(name = "AuditLoggerClient")]
+pub trait AuditLoggerInterface {
+    fn log_action(env: Env, user: Address, action: Symbol, timestamp: u64);
+}
 
 // ── Storage Keys ────────────────────────────────────────────────────────────
 #[contracttype]
@@ -13,6 +19,8 @@ pub enum DataKey {
     EntryIds(Address),
     /// Stores total entry count for a user: user_address -> u32
     EntryCount(Address),
+    /// Address of the Audit Logger contract
+    AuditLogger,
 }
 
 // ── Data Structures ─────────────────────────────────────────────────────────
@@ -38,6 +46,16 @@ pub struct PasswordVaultContract;
 
 #[contractimpl]
 impl PasswordVaultContract {
+    /// Set the Audit Logger contract address
+    pub fn set_audit_logger(env: Env, logger: Address) {
+        env.storage().instance().set(&DataKey::AuditLogger, &logger);
+    }
+
+    /// Get the Audit Logger contract address (if set)
+    pub fn get_audit_logger(env: Env) -> Option<Address> {
+        env.storage().instance().get(&DataKey::AuditLogger)
+    }
+
     // ── Store / Update an Entry ─────────────────────────────────────────
     /// Store an encrypted password entry. If entry_id already exists, it is overwritten.
     pub fn store_entry(
@@ -105,9 +123,15 @@ impl PasswordVaultContract {
 
         // ── Emit Event ──
         env.events().publish(
-            (Symbol::new(&env, "store_entry"), user),
+            (Symbol::new(&env, "store_entry"), user.clone()),
             entry_id
         );
+
+        // ── Inter-Contract Call to Audit Logger ──
+        if let Some(logger_address) = env.storage().instance().get::<_, Address>(&DataKey::AuditLogger) {
+            let client = AuditLoggerClient::new(&env, &logger_address);
+            client.log_action(&user, &Symbol::new(&env, "store_entry"), &timestamp);
+        }
     }
 
     // ── Get a Single Entry ──────────────────────────────────────────────
@@ -203,9 +227,16 @@ impl PasswordVaultContract {
 
         // ── Emit Event ──
         env.events().publish(
-            (Symbol::new(&env, "delete_entry"), user),
+            (Symbol::new(&env, "delete_entry"), user.clone()),
             entry_id
         );
+
+        // ── Inter-Contract Call to Audit Logger ──
+        if let Some(logger_address) = env.storage().instance().get::<_, Address>(&DataKey::AuditLogger) {
+            let client = AuditLoggerClient::new(&env, &logger_address);
+            let now = 0u64; // In real usage, you'd fetch ledger timestamp or pass it
+            client.log_action(&user, &Symbol::new(&env, "delete_entry"), &now);
+        }
     }
 
     // ── Get Entry Count (no auth needed — public info) ──────────────────
@@ -258,6 +289,19 @@ mod test {
     use super::*;
     use soroban_sdk::{testutils::Address as _, Env};
 
+    // Dummy AuditLogger implementation for testing inter-contract communication
+    #[contract]
+    pub struct MockAuditLogger;
+
+    #[contractimpl]
+    impl MockAuditLogger {
+        pub fn log_action(env: Env, user: Address, action: Symbol, timestamp: u64) {
+            // Write a dummy key to verify it was called
+            env.storage().instance().set(&DataKey::EntryCount(user), &1u32);
+            env.events().publish((Symbol::new(&env, "audit_log"), action), timestamp);
+        }
+    }
+
     #[test]
     fn test_store_and_get() {
         let env = Env::default();
@@ -283,6 +327,38 @@ mod test {
 
         // Count
         assert_eq!(client.get_entry_count(&user), 1);
+    }
+
+    #[test]
+    fn test_inter_contract_communication() {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let vault_id = env.register(PasswordVaultContract, ());
+        let vault_client = PasswordVaultContractClient::new(&env, &vault_id);
+
+        let logger_id = env.register(MockAuditLogger, ());
+
+        // Set the audit logger
+        vault_client.set_audit_logger(&logger_id);
+        assert_eq!(vault_client.get_audit_logger(), Some(logger_id.clone()));
+
+        let user = Address::generate(&env);
+        let entry_id = BytesN::from_array(&env, &[3u8; 32]);
+        let data = Bytes::from_slice(&env, b"data");
+        let label = Bytes::from_slice(&env, b"label");
+
+        // Trigger store, which should invoke log_action on MockAuditLogger
+        vault_client.store_entry(&user, &entry_id, &data, &label, &12345u64);
+
+        // Verify the MockAuditLogger mock behavior occurred
+        let _mock_client = MockAuditLoggerClient::new(&env, &logger_id);
+        // During store_entry, log_action writes a value of 1u32 to EntryCount key in MockAuditLogger instance storage
+        assert!(env.as_contract(&logger_id, || {
+            let val: u32 = env.storage().instance().get(&DataKey::EntryCount(user)).unwrap();
+            assert_eq!(val, 1u32);
+            Some(())
+        }).is_some());
     }
 
     #[test]

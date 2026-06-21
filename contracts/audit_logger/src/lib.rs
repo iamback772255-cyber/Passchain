@@ -34,7 +34,7 @@ impl AuditLoggerContract {
             .get(&key)
             .unwrap_or(Vec::new(&env));
 
-        logs.push_back(AuditEntry { action, timestamp });
+        logs.push_back(AuditEntry { action: action.clone(), timestamp });
 
         env.storage().persistent().set(&key, &logs);
         env.storage()
