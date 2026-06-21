@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "contracts/password_vault",
+    "contracts/audit_logger",
 ]
 
 [profile.release]
