@@ -7,3 +7,12 @@ if (typeof window !== 'undefined') {
 if (typeof globalThis !== 'undefined') {
   (globalThis as any).localstorage = (globalThis as any).localStorage;
 }
+
+// Polyfill for crypto.getRandomValues in jsdom
+import { webcrypto } from 'crypto';
+if (typeof window !== 'undefined' && !window.crypto) {
+  (window as any).crypto = webcrypto;
+}
+if (typeof globalThis !== 'undefined' && !globalThis.crypto) {
+  (globalThis as any).crypto = webcrypto;
+}
