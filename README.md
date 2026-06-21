@@ -1,6 +1,6 @@
-# PasswordBlock
+# Passchain
 
-PasswordBlock is a professional-grade, decentralized password management solution. It combines client-side industry-standard encryption with the Stellar blockchain to provide a "Zero-Knowledge" storage vault for your most sensitive credentials.
+Passchain is a professional-grade, decentralized password management solution. It combines client-side industry-standard encryption with the Stellar blockchain to provide a "Zero-Knowledge" storage vault for your most sensitive credentials.
 
 ## 🚀 Key Features
 
@@ -44,4 +44,4 @@ PasswordBlock is a professional-grade, decentralized password management solutio
 - **Deployment Transaction**: [43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635](https://stellar.expert/explorer/testnet/tx/43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635)
 
 ## ⚖️ Security Model
-PasswordBlock operates on a **Zero-Knowledge** architecture. Your master password/key is never stored on a server or on the blockchain. Instead, we use your hardware or software wallet to sign a deterministic "unlock message." The result of this signature is used as the AES-256-GCM encryption key to lock and unlock your data locally.
+Passchain operates on a **Zero-Knowledge** architecture. Your master password/key is never stored on a server or on the blockchain. Instead, we use your hardware or software wallet to sign a deterministic "unlock message." The result of this signature is used as the AES-256-GCM encryption key to lock and unlock your data locally.

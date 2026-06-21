@@ -12,7 +12,7 @@ export interface WalletConnection {
   network: string;
 }
 
-const UNLOCK_MESSAGE = 'PasswordBlock_Master_Key_v2'; 
+const UNLOCK_MESSAGE = 'Passchain_Master_Key_v2'; 
 
 /**
  * Sign a deterministic message to act as the encryption key.

@@ -33,7 +33,7 @@ export interface TxResult {
 }
 
 // ── Demo mode (localStorage) ────────────────────────────────────────────
-const DEMO_STORAGE_KEY = 'passwordblock_demo_entries';
+const DEMO_STORAGE_KEY = 'passchain_demo_entries';
 
 function getDemoEntries(userKey: string): ChainEntry[] {
   try {

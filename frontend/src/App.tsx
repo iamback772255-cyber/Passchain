@@ -228,7 +228,7 @@ const App: React.FC = () => {
         <div className="landing-container">
           <div className="glass-card landing-card">
             <div className="landing-icon">🔐</div>
-            <h1 className="landing-title">PasswordBlock</h1>
+            <h1 className="landing-title">Passchain</h1>
             <p className="landing-subtitle">
               A decentralized, blockchain-powered password manager.
               Your credentials, encrypted and stored on the Stellar network.

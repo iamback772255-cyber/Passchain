@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* Logo */}
         <div className="header-logo">
           <div className="header-logo-icon">🔐</div>
-          <span className="header-logo-text">PasswordBlock</span>
+          <span className="header-logo-text">Passchain</span>
           {wallet.isDemo && (
             <span className="header-logo-badge">Demo Mode</span>
           )}
