@@ -17,9 +17,7 @@ Passchain is a professional-grade, decentralized password management solution. I
 **🎥 Demo Video (1-2 minutes)**: [Watch the Demo Video Here](https://youtube.com/your-video-link)
 
 **📱 Mobile Responsive UI**:  
-<img width="360" height="665" alt="image" src="https://github.com/user-attachments/assets/761f30fd-dc99-489e-822b-c74b6cf25f0a" />
-
-<img width="358" height="667" alt="image" src="https://github.com/user-attachments/assets/37fe3ce0-7851-4d41-9b5a-dc6dda9ce227" />
+<img width="360" height="665" alt="image" src="https://github.com/user-attachments/assets/761f30fd-dc99-489e-822b-c74b6cf25f0a" />       <img width="358" height="667" alt="image" src="https://github.com/user-attachments/assets/37fe3ce0-7851-4d41-9b5a-dc6dda9ce227" />
 
 ---
 
