@@ -12,7 +12,9 @@ import * as PasswordVault from '../contracts/password-vault';
 import { StellarWalletsKit } from './kit';
 
 // ── Configuration ───────────────────────────────────────────────────────
-const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || '';
+const ENV_CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || '';
+const BINDING_CONTRACT_ID = PasswordVault.networks.testnet.contractId || '';
+const CONTRACT_ID = ENV_CONTRACT_ID || BINDING_CONTRACT_ID;
 
 export function isContractConfigured(): boolean {
   return CONTRACT_ID.length > 0;
