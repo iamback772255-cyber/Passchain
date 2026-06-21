@@ -9,16 +9,24 @@ Passchain is a professional-grade, decentralized password management solution. I
 - **Deployed Contract ID**: `CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF`
 - **Explorer Link**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDKMBJRDVC6G3QRIRS7ZBLG7RZHDGR5XDVFTBLVXWG4TUTRHPT6HWJJF)
 - **Deployment Transaction**: [43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635](https://stellar.expert/explorer/testnet/tx/43848ced9218ac64ef4951bb4d344c7dc309c68743be5501c6852e4207022635)
+<img width="1915" height="912" alt="image" src="https://github.com/user-attachments/assets/0ccde413-d316-4181-a0a3-edb3addb4523" />
 
 ---
 
 ## 📸 Media & Demo
 
-**🎥 Demo Video (1-2 minutes)**: [Watch the Demo Video Here](https://youtube.com/your-video-link)
+**🎥 Demo Video **:
+
+https://github.com/user-attachments/assets/eed46d8d-f9fe-4b80-b2d6-f74f20ff32b9
+
+
+**Desktop view**:
+<img width="1912" height="911" alt="image" src="https://github.com/user-attachments/assets/a086d4bc-860f-458d-8185-6cf53d36a364" />
+<img width="1918" height="915" alt="image" src="https://github.com/user-attachments/assets/91e4cc47-ef68-4f0f-b3ed-22844ce96a67" />
+
 
 **📱 Mobile Responsive UI**:  
-*(Replace this line with your screenshot by dragging and dropping an image into this markdown file)*
-![Passchain Mobile UI Placeholder](https://via.placeholder.com/600x400?text=Passchain+Mobile+UI)
+<img width="360" height="665" alt="image" src="https://github.com/user-attachments/assets/761f30fd-dc99-489e-822b-c74b6cf25f0a" />       <img width="358" height="667" alt="image" src="https://github.com/user-attachments/assets/37fe3ce0-7851-4d41-9b5a-dc6dda9ce227" />
 
 ---
 
