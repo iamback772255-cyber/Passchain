@@ -28,6 +28,12 @@ https://github.com/user-attachments/assets/eed46d8d-f9fe-4b80-b2d6-f74f20ff32b9
 **📱 Mobile Responsive UI**:  
 <img width="360" height="665" alt="image" src="https://github.com/user-attachments/assets/761f30fd-dc99-489e-822b-c74b6cf25f0a" />       <img width="358" height="667" alt="image" src="https://github.com/user-attachments/assets/37fe3ce0-7851-4d41-9b5a-dc6dda9ce227" />
 
+**CI/CD And Test**:
+<img width="1918" height="656" alt="image" src="https://github.com/user-attachments/assets/413de939-55e9-421b-8540-be77804ae097" />
+
+<img width="1918" height="775" alt="image" src="https://github.com/user-attachments/assets/6a55c1d4-41bd-4d66-b4cf-ab6d0d679c64" />
+
+
 ---
 
 ## 🚀 Core Capabilities & Features
