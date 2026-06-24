@@ -1,24 +1,12 @@
 import { vi } from 'vitest';
 
-// Mock third party stellar libraries before importing components
-vi.mock('@creit-tech/stellar-wallets-kit', () => {
-  return {
-    StellarWalletsKit: {
-      signTransaction: vi.fn(),
-      signAuthEntry: vi.fn(),
-    },
-    Networks: {
-      TESTNET: 'TESTNET',
-      PUBLIC: 'PUBLIC',
-    },
-  };
-});
-
 vi.mock('@stellar/freighter-api', () => {
   return {
     isConnected: vi.fn(),
     getPublicKey: vi.fn(),
     signTransaction: vi.fn(),
+    signBlob: vi.fn(),
+    getNetworkDetails: vi.fn(),
   };
 });
 

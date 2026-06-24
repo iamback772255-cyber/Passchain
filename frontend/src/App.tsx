@@ -73,7 +73,7 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [appView, wallet.publicKey, wallet.isDemo, loadEntries]);
 
-  // ── Track mouse for gradient glow effect & Style SWK Modal ──────────
+  // ── Track mouse for gradient glow effect ──────────
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
@@ -81,106 +81,8 @@ const App: React.FC = () => {
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Advanced dynamic styling for the Stellar Wallets Kit Modal
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof HTMLElement) {
-            // Check for shadow DOM host or generic SWK wrappers
-            const swkHost = node.tagName.toLowerCase().includes('stellar-wallets') ? node : node.querySelector('*[id*="stellar-wallets"]');
-            
-            const injectStyles = (targetRoot: DocumentFragment | HTMLElement) => {
-              const styleId = 'passchain-swk-theme';
-              if (targetRoot.querySelector(`#${styleId}`)) return;
-              
-              const style = document.createElement('style');
-              style.id = styleId;
-              style.innerHTML = `
-                /* Passchain Premium Glassmorphism Theme for SWK */
-                :host {
-                  --swk-color-bg: rgba(17, 24, 39, 0.95) !important;
-                  --swk-color-text: #F1F5F9 !important;
-                  --swk-color-border: rgba(59, 130, 246, 0.2) !important;
-                  --swk-color-primary: #3B82F6 !important;
-                  --swk-color-button: rgba(30, 41, 59, 0.7) !important;
-                  --swk-color-button-hover: rgba(59, 130, 246, 0.2) !important;
-                  --swk-border-radius: 16px !important;
-                }
-                * {
-                  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-                }
-                
-                /* Override white backgrounds and borders */
-                div[style*="background"], div[class*="container"], div[class*="modal"] {
-                  background: var(--swk-color-bg) !important;
-                  backdrop-filter: blur(12px) !important;
-                  color: var(--swk-color-text) !important;
-                  border-color: var(--swk-color-border) !important;
-                }
-                
-                /* Style the wallet list items */
-                button, div[role="button"], li {
-                  background: var(--swk-color-button) !important;
-                  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-                  border-radius: 12px !important;
-                  color: var(--swk-color-text) !important;
-                  transition: all 0.3s ease !important;
-                  margin-bottom: 8px !important;
-                }
-                
-                button:hover, div[role="button"]:hover, li:hover {
-                  background: var(--swk-color-button-hover) !important;
-                  border-color: rgba(59, 130, 246, 0.4) !important;
-                  transform: translateY(-1px) !important;
-                  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1) !important;
-                }
-                
-                /* Install buttons specifically */
-                button[class*="install"] {
-                  background: rgba(59, 130, 246, 0.1) !important;
-                  color: #3B82F6 !important;
-                  border: 1px solid rgba(59, 130, 246, 0.2) !important;
-                }
-                
-                /* Texts and Titles */
-                span, p, h1, h2, h3, h4 {
-                  color: #F8FAFC !important;
-                }
-                
-                /* Footer text */
-                div[class*="powered"] {
-                  opacity: 0.7 !important;
-                  font-size: 0.8rem !important;
-                  border-top: 1px solid var(--swk-color-border) !important;
-                  margin-top: 12px !important;
-                  padding-top: 12px !important;
-                }
-                
-                /* Hide the weird white gradient fade at bottom if it exists */
-                div[style*="linear-gradient"] {
-                  display: none !important;
-                }
-              `;
-              targetRoot.appendChild(style);
-            };
-
-            // If it uses Shadow DOM (standard for SWK v2)
-            if (swkHost && swkHost.shadowRoot) {
-              injectStyles(swkHost.shadowRoot);
-            } else if (node.innerHTML && node.innerHTML.includes('Connect Wallet')) {
-              // Fallback for non-shadow DOM injection
-              injectStyles(node);
-            }
-          }
-        });
-      });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      observer.disconnect();
     };
   }, []);
 

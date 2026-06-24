@@ -11,7 +11,6 @@
     "test": "vitest run src/tests/frontend.test.tsx"
   },
   "dependencies": {
-    "@creit-tech/stellar-wallets-kit": "npm:@jsr/creit-tech__stellar-wallets-kit@^2.1.0",
     "@stellar/freighter-api": "^2.0.0",
     "@stellar/stellar-sdk": "^13.1.0",
     "password-vault": "file:src/contracts/password-vault",

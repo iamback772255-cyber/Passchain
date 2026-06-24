@@ -1,11 +1,11 @@
 /**
- * PasswordBlock — StellarWalletsKit integration.
+ * PasswordBlock — Freighter integration.
  *
- * Handles connecting multiple Stellar wallets (Freighter, xBull, etc.)
- * using a unified modal. Falls back to "demo mode" when needed.
+ * Handles connecting to Freighter wallet directly.
+ * Falls back to "demo mode" when needed.
  */
 
-import { StellarWalletsKit, Networks } from './kit';
+import { isConnected, getPublicKey, getNetworkDetails, signBlob } from '@stellar/freighter-api';
 
 export interface WalletConnection {
   publicKey: string;
@@ -19,13 +19,11 @@ const UNLOCK_MESSAGE = 'Passchain_Master_Key_v2';
  */
 export async function signUnlockMessage(publicKey: string): Promise<string> {
   try {
-    // In v2, we use signMessage for arbitrary strings
-    const { signedMessage } = await StellarWalletsKit.signMessage(UNLOCK_MESSAGE, {
-      address: publicKey
-    });
+    const base64Message = btoa(UNLOCK_MESSAGE);
+    const signedBlob = await signBlob(base64Message, { accountToSign: publicKey });
     
-    if (!signedMessage) throw new Error('Signature was empty');
-    return signedMessage;
+    if (!signedBlob) throw new Error('Signature was empty');
+    return signedBlob;
   } catch (err: unknown) {
     if (err instanceof Error) {
       if (err.message.includes('code: -1') || err.message.includes('closed') || err.message.includes('rejected')) {
@@ -38,22 +36,27 @@ export async function signUnlockMessage(publicKey: string): Promise<string> {
 }
 
 /**
- * Connect to a wallet using the kit's modal and retrieve the user's public key + network.
+ * Connect to a wallet using Freighter and retrieve the user's public key + network.
  */
 export async function connectWallet(): Promise<WalletConnection> {
   try {
-    // Open v2 auth modal
-    const { address } = await StellarWalletsKit.authModal();
-    
+    const connected = await isConnected();
+    if (!connected) {
+      throw new Error('Freighter is not installed or connected.');
+    }
+
+    const address = await getPublicKey();
     if (!address) {
       throw new Error('Failed to get address from wallet.');
     }
 
-    return { publicKey: address, network: 'TESTNET' };
+    const { network } = await getNetworkDetails();
+
+    return { publicKey: address, network: network || 'TESTNET' };
   } catch (err: unknown) {
     if (err instanceof Error) {
-      if (err.message.includes('closed')) {
-        throw new Error('Connection Canceled: The modal was closed.');
+      if (err.message.includes('closed') || err.message.includes('User declined')) {
+        throw new Error('Connection Canceled: The request was closed.');
       }
       throw err;
     }
@@ -66,7 +69,9 @@ export async function connectWallet(): Promise<WalletConnection> {
  */
 export async function getWalletAddress(): Promise<string | null> {
   try {
-    const { address } = await StellarWalletsKit.getAddress();
+    const connected = await isConnected();
+    if (!connected) return null;
+    const address = await getPublicKey();
     return address || null;
   } catch {
     return null;
