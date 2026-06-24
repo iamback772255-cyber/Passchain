@@ -9,7 +9,7 @@
 import { Buffer } from 'buffer';
 import type { EncryptedData } from '../crypto/encryption';
 import * as PasswordVault from '../contracts/password-vault';
-import { StellarWalletsKit } from './kit';
+import { signTransaction, signAuthEntry } from '@stellar/freighter-api';
 
 // ── Configuration ───────────────────────────────────────────────────────
 const ENV_CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || '';
@@ -59,8 +59,9 @@ function getClient(userPublicKey: string) {
     publicKey: userPublicKey,
     signTransaction: async (txXdr: string, opts?: any) => {
       try {
-        const { signedTxXdr } = await StellarWalletsKit.signTransaction(txXdr, {
-          networkPassphrase: opts?.networkPassphrase
+        const signedTxXdr = await signTransaction(txXdr, {
+          networkPassphrase: opts?.networkPassphrase,
+          accountToSign: userPublicKey
         });
         return { signedTxXdr };
       } catch (error: any) {
@@ -69,9 +70,8 @@ function getClient(userPublicKey: string) {
     },
     signAuthEntry: async (entryXdr: string, opts?: any) => {
       try {
-        const { signedAuthEntry } = await StellarWalletsKit.signAuthEntry(entryXdr, {
-          networkPassphrase: opts?.networkPassphrase,
-          address: opts?.address
+        const signedAuthEntry = await signAuthEntry(entryXdr, {
+          accountToSign: opts?.address || userPublicKey
         });
         return { signedAuthEntry };
       } catch (error: any) {
